@@ -15,12 +15,21 @@ class Publisher(models.Model):
 
     def __str__(self):
         return self.name
-    
+
+class Author(models.Model):
+    name = models.TextField(max_length=200)
+    birth_date = models.DateField()
+
+    def __str__(self):
+        return self.name
+
 class Book(models.Model):
     title = models.TextField(max_length=200)
     publication_date = models.DateField()
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE) #Si alguien intenta borrar el publisher no lo va  poder hacer, porque esta protegido. Si borran el publisher, cascade eliminará todos los libros asociados al publisher.
-
+    authors = models.ManyToManyField(Author, related_name='authors') #Nos permite relacionar varios autores a un mismo libro
+    
     def __str__(self):
         return self.title
     
+
